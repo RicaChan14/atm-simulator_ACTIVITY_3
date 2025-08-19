@@ -1,0 +1,86 @@
+using System;
+
+namespace SimpleATM
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Erica Ricafort");
+            Console.WriteLine("Simple ATM System");
+            Console.WriteLine("-----------------------------");
+
+            double balance = 1000.00;
+            int choice;
+
+        Menu:
+
+            while (true)
+            {
+                Console.WriteLine("\nMenu:");
+                Console.WriteLine("1. Check Balance");
+                Console.WriteLine("2. Deposit Money");
+                Console.WriteLine("3. Withdraw Money");
+                Console.WriteLine("4. Exit");
+                Console.Write("Enter your choice: ");
+
+                bool validChoice = int.TryParse(Console.ReadLine(), out choice);
+
+                if (!validChoice)
+                {
+                    Console.WriteLine("Invalid input. Please enter a number from 1 to 4.");
+                    goto Menu;
+                }
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine($"\nYour current balance is: {balance:F2}");
+                        break;
+
+                    case 2:
+                        Console.Write("Enter amount to deposit: ");
+                        double depositAmount = Convert.ToDouble(Console.ReadLine());
+                        if (depositAmount <= 0)
+                        {
+                            Console.WriteLine("Deposit amount must be positive.");
+                            continue;
+                        }
+                        balance += depositAmount;
+                        Console.WriteLine($"Successfully deposited {depositAmount:F2}. New balance: {balance:F2}");
+                        break;
+
+                    case 3:
+                        Console.Write("Enter amount to withdraw: ");
+                        double withdrawAmount = Convert.ToDouble(Console.ReadLine());
+                        if (withdrawAmount > balance)
+                        {
+                            Console.WriteLine("Insufficient balance.");
+                            continue;
+                        }
+                        if (withdrawAmount <= 0)
+                        {
+                            Console.WriteLine("Withdrawal amount must be positive.");
+                            continue;
+                        }
+                        balance -= withdrawAmount;
+                        Console.WriteLine($"Successfully withdrew {withdrawAmount:F2}. Remaining balance: {balance:F2}");
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Thank you for using the ATM system.");
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option. Please choose between 1 and 4.");
+                        goto Menu;
+                }
+
+                if (choice == 4)
+                {
+                    break;
+                }
+            }
+        }
+    }
+}
